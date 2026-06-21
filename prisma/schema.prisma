@@ -1,0 +1,148 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Restaurant {
+  id              String   @id @default(cuid())
+  name            String   @default("FlameGrill")
+  tagline         String   @default("Premium Burgers & Grills")
+  logo            String   @default("")
+  phone           String   @default("+1 555-123-4567")
+  email           String   @default("hello@flamegrill.com")
+  address         String   @default("123 Main Street, Downtown, NY 10001")
+  openHours       String   @default("Mon-Sun: 10:00 AM - 11:00 PM")
+  primaryColor    String   @default("#DC2626")
+  secondaryColor  String   @default("#1E3A5F")
+  accentColor     String   @default("#F59E0B")
+  currency        String   @default("$")
+  currencyCode    String   @default("USD")
+  deliveryFee     Float    @default(2.99)
+  minOrder        Float    @default(15.00)
+  deliveryRadius  Float    @default(10.0)
+  socialFacebook  String   @default("")
+  socialInstagram String   @default("")
+  socialTwitter   String   @default("")
+  heroImages      String   @default("[]")
+  termsLink       String   @default("")
+  privacyLink     String   @default("")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Category {
+  id          String     @id @default(cuid())
+  name        String
+  description String?
+  image       String?
+  sortOrder   Int        @default(0)
+  isActive    Boolean    @default(true)
+  items       MenuItem[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model MenuItem {
+  id           String          @id @default(cuid())
+  name         String
+  description  String
+  price        Float
+  image        String?
+  categoryId   String
+  category     Category        @relation(fields: [categoryId], references: [id])
+  isAvailable  Boolean         @default(true)
+  isPopular    Boolean         @default(false)
+  isNew        Boolean         @default(false)
+  isSpicy      Boolean         @default(false)
+  isVegetarian Boolean         @default(false)
+  calories     Int?
+  prepTime     Int
+  variations   ItemVariation[]
+  addons       ItemAddon[]
+  reviews      Review[]
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+}
+
+model ItemVariation {
+  id        String   @id @default(cuid())
+  name      String
+  priceMod  Float    @default(0)
+  isDefault Boolean  @default(false)
+  itemId    String
+  item      MenuItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+}
+
+model ItemAddon {
+  id        String   @id @default(cuid())
+  name      String
+  price     Float    @default(0)
+  itemId    String
+  item      MenuItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  orderNumber     String      @unique
+  customerName    String
+  customerPhone   String
+  customerEmail   String?
+  deliveryAddress String
+  deliveryNotes   String?
+  orderType       String      @default("delivery")
+  paymentMethod   String      @default("cash")
+  status          String      @default("pending")
+  subtotal        Float
+  deliveryFee     Float       @default(0)
+  total           Float
+  riderId         String?
+  rider           Rider?      @relation(fields: [riderId], references: [id])
+  items           OrderItem[]
+  review          Review?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+}
+
+model OrderItem {
+  id         String @id @default(cuid())
+  orderId    String
+  order      Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  itemId     String
+  itemName   String
+  itemImage  String?
+  itemPrice  Float
+  quantity   Int
+  variation  String?
+  addons     String?
+  notes      String?
+}
+
+model Rider {
+  id          String   @id @default(cuid())
+  name        String
+  phone       String
+  email       String?
+  avatar      String?
+  isAvailable Boolean  @default(true)
+  vehicleType String   @default("motorcycle")
+  password    String   @default("rider123")
+  orders      Order[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Review {
+  id           String   @id @default(cuid())
+  orderId      String   @unique
+  order        Order    @relation(fields: [orderId], references: [id])
+  itemId       String
+  item         MenuItem @relation(fields: [itemId], references: [id])
+  rating       Int
+  comment      String?
+  customerName String
+  createdAt    DateTime @default(now())
+}
