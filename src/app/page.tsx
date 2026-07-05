@@ -39,14 +39,16 @@ export default function HomePage() {
 
   useEffect(() => {
     Promise.all([
-      fetch('/api/branding').then((r) => r.json()),
-      fetch('/api/categories').then((r) => r.json()),
-      fetch('/api/menu').then((r) => r.json()),
+      fetch('/api/branding').then((r) => (r.ok ? r.json() : null)),
+      fetch('/api/categories').then((r) => (r.ok ? r.json() : [])),
+      fetch('/api/menu').then((r) => (r.ok ? r.json() : [])),
     ])
       .then(([b, c, m]) => {
-        setBranding(b);
-        setCategories(c);
-        setMenuItems(m);
+        if (b && typeof b === 'object' && !Array.isArray(b)) {
+          setBranding(b);
+        }
+        setCategories(Array.isArray(c) ? c : []);
+        setMenuItems(Array.isArray(m) ? m : []);
       })
       .catch(() => {})
       .finally(() => setLoading(false));

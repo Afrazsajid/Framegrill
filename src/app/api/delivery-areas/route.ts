@@ -1,4 +1,5 @@
 import { db } from '@/lib/db';
+import { fallbackDeliveryAreas } from '@/lib/fallback-data';
 import { NextRequest, NextResponse } from 'next/server';
 
 // GET /api/delivery-areas — fetch all areas, optionally match by coordinates
@@ -48,9 +49,54 @@ export async function GET(req: NextRequest) {
     }
 
     return NextResponse.json(areas);
-  } catch {
-    return NextResponse.json({ error: 'Failed to fetch delivery areas' }, { status: 500 });
+  } catch (error) {
+    console.error('Failed to fetch delivery areas, using fallback data:', error);
+
+    const { searchParams } = new URL(req.url);
+    const latParam = searchParams.get('lat');
+    const lngParam = searchParams.get('lng');
+
+    if (latParam && lngParam) {
+      return NextResponse.json(matchDeliveryAreas(fallbackDeliveryAreas, latParam, lngParam));
+    }
+
+    return NextResponse.json(fallbackDeliveryAreas);
   }
+}
+
+function matchDeliveryAreas(
+  areas: typeof fallbackDeliveryAreas,
+  latParam: string,
+  lngParam: string,
+) {
+  const lat = parseFloat(latParam);
+  const lng = parseFloat(lngParam);
+
+  if (isNaN(lat) || isNaN(lng)) {
+    return areas;
+  }
+
+  const earthRadiusKm = 6371;
+  const toRad = (degrees: number) => (degrees * Math.PI) / 180;
+
+  const matches = areas
+    .filter((area) => area.isActive && area.latitude !== null && area.longitude !== null)
+    .map((area) => {
+      const dLat = toRad(area.latitude - lat);
+      const dLng = toRad(area.longitude - lng);
+      const haversine =
+        Math.sin(dLat / 2) ** 2 +
+        Math.cos(toRad(lat)) *
+          Math.cos(toRad(area.latitude)) *
+          Math.sin(dLng / 2) ** 2;
+      const distance = earthRadiusKm * 2 * Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine));
+
+      return { area, distance };
+    })
+    .filter((match) => match.distance <= match.area.radiusKm)
+    .sort((a, b) => a.distance - b.distance);
+
+  return matches.length > 0 ? [matches[0].area] : [];
 }
 
 // POST /api/delivery-areas — create area

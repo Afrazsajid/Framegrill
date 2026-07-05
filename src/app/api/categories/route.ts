@@ -1,4 +1,5 @@
 import { db } from '@/lib/db';
+import { fallbackCategories } from '@/lib/fallback-data';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
@@ -11,8 +12,9 @@ export async function GET() {
       },
     });
     return NextResponse.json(categories);
-  } catch {
-    return NextResponse.json({ error: 'Failed to fetch categories' }, { status: 500 });
+  } catch (error) {
+    console.error('Failed to fetch categories, using fallback data:', error);
+    return NextResponse.json(fallbackCategories);
   }
 }
 

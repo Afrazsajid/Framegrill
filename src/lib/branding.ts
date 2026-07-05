@@ -1,4 +1,5 @@
 import { db } from '@/lib/db';
+import { fallbackBranding } from '@/lib/fallback-data';
 
 export type BrandingConfig = {
   id: string;
@@ -25,30 +26,7 @@ export type BrandingConfig = {
   privacyLink: string;
 };
 
-const defaultBranding: BrandingConfig = {
-  id: 'default',
-  name: 'FlameGrill',
-  tagline: 'Premium Burgers & Grills Since 2018',
-  logo: '',
-  phone: '+1 555-123-4567',
-  email: 'hello@flamegrill.com',
-  address: '123 Main Street, Downtown, New York, NY 10001',
-  openHours: 'Mon-Thu: 10AM-10PM | Fri-Sat: 10AM-12AM | Sun: 11AM-9PM',
-  primaryColor: '#DC2626',
-  secondaryColor: '#1E3A5F',
-  accentColor: '#F59E0B',
-  currency: '$',
-  currencyCode: 'USD',
-  deliveryFee: 2.99,
-  minOrder: 15.0,
-  deliveryRadius: 10.0,
-  socialFacebook: 'https://facebook.com/flamegrill',
-  socialInstagram: 'https://instagram.com/flamegrill',
-  socialTwitter: 'https://twitter.com/flamegrill',
-  heroImages: '[]',
-  termsLink: '/terms',
-  privacyLink: '/privacy',
-};
+const defaultBranding: BrandingConfig = fallbackBranding;
 
 export async function getBranding(): Promise<BrandingConfig> {
   try {

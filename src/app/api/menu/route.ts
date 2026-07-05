@@ -1,4 +1,5 @@
 import { db } from '@/lib/db';
+import { fallbackMenuItems } from '@/lib/fallback-data';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
@@ -14,8 +15,9 @@ export async function GET() {
       },
     });
     return NextResponse.json(items);
-  } catch {
-    return NextResponse.json({ error: 'Failed to fetch menu items' }, { status: 500 });
+  } catch (error) {
+    console.error('Failed to fetch menu items, using fallback data:', error);
+    return NextResponse.json(fallbackMenuItems);
   }
 }
 

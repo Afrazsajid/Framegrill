@@ -1,15 +1,17 @@
 import { db } from '@/lib/db';
+import { fallbackBranding } from '@/lib/fallback-data';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
     const restaurant = await db.restaurant.findFirst();
     if (!restaurant) {
-      return NextResponse.json({ error: 'Restaurant not found' }, { status: 404 });
+      return NextResponse.json(fallbackBranding);
     }
     return NextResponse.json(restaurant);
-  } catch {
-    return NextResponse.json({ error: 'Failed to fetch branding' }, { status: 500 });
+  } catch (error) {
+    console.error('Failed to fetch branding, using fallback data:', error);
+    return NextResponse.json(fallbackBranding);
   }
 }
 
