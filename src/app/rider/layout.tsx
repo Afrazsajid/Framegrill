@@ -42,7 +42,7 @@ export default function RiderLayout({ children }: { children: React.ReactNode })
     // Show loading state while redirecting
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="w-8 h-8 border-3 border-[#DC2626]/30 border-t-[#DC2626] rounded-full animate-spin" />
+        <div className="w-8 h-8 border-3 border-brand/30 border-t-brand rounded-full animate-spin" />
       </div>
     );
   }
@@ -58,10 +58,10 @@ export default function RiderLayout({ children }: { children: React.ReactNode })
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Top Bar */}
-      <header className="sticky top-0 z-50 bg-[#1E3A5F] text-white shadow-md">
+      <header className="sticky top-0 z-50 bg-brand-secondary text-white shadow-md">
         <div className="flex items-center justify-between px-4 h-14">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-[#DC2626] flex items-center justify-center">
+            <div className="w-8 h-8 rounded-full bg-brand flex items-center justify-center">
               <Flame className="w-4 h-4 text-white" />
             </div>
             <div>
@@ -106,7 +106,7 @@ export default function RiderLayout({ children }: { children: React.ReactNode })
                   key={item.href}
                   onClick={() => router.push(item.href)}
                   className={`flex flex-col items-center justify-center gap-0.5 w-16 h-full relative transition-colors ${
-                    isActive ? 'text-[#DC2626]' : 'text-muted-foreground hover:text-foreground'
+                    isActive ? 'text-brand' : 'text-muted-foreground hover:text-foreground'
                   }`}
                   aria-label={item.label}
                   aria-current={isActive ? 'page' : undefined}
@@ -116,7 +116,7 @@ export default function RiderLayout({ children }: { children: React.ReactNode })
                     {isActive && (
                       <motion.div
                         layoutId="rider-nav-indicator"
-                        className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-5 h-0.5 rounded-full bg-[#DC2626]"
+                        className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-5 h-0.5 rounded-full bg-brand"
                       />
                     )}
                   </div>

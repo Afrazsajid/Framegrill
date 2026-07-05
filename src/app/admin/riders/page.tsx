@@ -149,7 +149,7 @@ export default function AdminRidersPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-96">
-        <Loader2 className="w-8 h-8 text-[#DC2626] animate-spin" />
+        <Loader2 className="w-8 h-8 text-brand animate-spin" />
       </div>
     );
   }
@@ -161,7 +161,7 @@ export default function AdminRidersPage() {
           <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Riders</h1>
           <p className="text-slate-500 text-sm mt-1">Manage delivery riders</p>
         </div>
-        <Button onClick={() => openDialog()} className="bg-[#DC2626] hover:bg-[#B91C1C] text-white">
+        <Button onClick={() => openDialog()} className="bg-brand hover:bg-brand-hover text-white">
           <Plus className="w-4 h-4 mr-2" /> Add Rider
         </Button>
       </div>
@@ -343,7 +343,7 @@ export default function AdminRidersPage() {
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setDialogOpen(false)}>Cancel</Button>
-            <Button onClick={saveRider} className="bg-[#DC2626] hover:bg-[#B91C1C] text-white">
+            <Button onClick={saveRider} className="bg-brand hover:bg-brand-hover text-white">
               {editingRider ? 'Update' : 'Add Rider'}
             </Button>
           </DialogFooter>

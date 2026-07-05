@@ -50,6 +50,7 @@ type Order = {
   total: number;
   paymentMethod: string;
   items: OrderItem[];
+  deliveryArea?: { id: string; name: string; slug: string };
   riderId?: string;
   createdAt: string;
   updatedAt: string;
@@ -218,7 +219,7 @@ export default function DeliveryDetailPage() {
                 order.status === 'picked_up' ? '#6366F1' :
                 order.status === 'on_the_way' ? '#06B6D4' :
                 order.status === 'delivered' ? '#22C55E' :
-                '#DC2626',
+                'var(--brand-color)',
             }}
           />
           <CardContent className="p-5 text-center">
@@ -253,7 +254,7 @@ export default function DeliveryDetailPage() {
                 <p className="text-sm font-medium text-foreground">{order.customerName}</p>
                 <a
                   href={`tel:${order.customerPhone}`}
-                  className="text-sm text-[#DC2626] hover:underline inline-flex items-center gap-1 mt-0.5"
+                  className="text-sm text-brand hover:underline inline-flex items-center gap-1 mt-0.5"
                 >
                   <Phone className="w-3.5 h-3.5" />
                   {order.customerPhone}
@@ -262,6 +263,20 @@ export default function DeliveryDetailPage() {
             </div>
 
             <Separator />
+
+            {/* Area */}
+            {order.deliveryArea && (
+              <>
+                <Separator />
+                <div className="flex items-center gap-2">
+                  <MapPin className="w-4 h-4 text-brand mt-0.5 shrink-0" />
+                  <div>
+                    <p className="text-xs font-medium text-muted-foreground">Delivery Area</p>
+                    <p className="text-sm font-semibold text-brand">{order.deliveryArea.name}</p>
+                  </div>
+                </div>
+              </>
+            )}
 
             {/* Address */}
             <div>
@@ -273,7 +288,7 @@ export default function DeliveryDetailPage() {
                 href={mapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 mt-2 text-sm text-[#DC2626] font-medium hover:underline"
+                className="inline-flex items-center gap-1.5 mt-2 text-sm text-brand font-medium hover:underline"
               >
                 <Navigation className="w-3.5 h-3.5" />
                 Open in Maps
@@ -286,7 +301,7 @@ export default function DeliveryDetailPage() {
               <>
                 <Separator />
                 <div className="flex items-start gap-2">
-                  <StickyNote className="w-4 h-4 text-[#F59E0B] mt-0.5 shrink-0" />
+                  <StickyNote className="w-4 h-4 text-brand-accent mt-0.5 shrink-0" />
                   <div>
                     <p className="text-xs font-medium text-muted-foreground mb-0.5">Delivery Notes</p>
                     <p className="text-sm text-foreground">{order.deliveryNotes}</p>
@@ -360,7 +375,7 @@ export default function DeliveryDetailPage() {
               <Separator />
               <div className="flex justify-between text-base font-bold">
                 <span className="text-foreground">Total</span>
-                <span className="text-[#DC2626]">${order.total.toFixed(2)}</span>
+                <span className="text-brand">${order.total.toFixed(2)}</span>
               </div>
             </div>
 

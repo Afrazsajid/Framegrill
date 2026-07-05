@@ -12,6 +12,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useCartStore } from '@/store/cart-store';
 import { useUIStore } from '@/store/ui-store';
+import { UpsellSection } from './upsell-section';
 import type { MenuItemType } from './menu-card';
 import type { BrandingConfig } from '@/lib/branding';
 
@@ -199,6 +200,19 @@ export function ItemModal({ item, open, onClose }: Props) {
               rows={2}
             />
           </div>
+
+          <Separator />
+
+          {/* Upsell section — goes well with this */}
+          {item && (
+            <UpsellSection
+              placement="product_page"
+              productId={item.id}
+              categoryId={item.category?.id}
+              title="Complete your meal"
+              limit={4}
+            />
+          )}
 
           <Separator />
 

@@ -15,8 +15,11 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Header } from '@/components/customer/header';
 import { CartDrawer } from '@/components/customer/cart-drawer';
 import { ToastContainer } from '@/components/customer/toast-container';
+import { UpsellSection } from '@/components/customer/upsell-section';
 import { useCartStore, type CartItem } from '@/store/cart-store';
 import { useUIStore } from '@/store/ui-store';
+import { useAreaStore } from '@/store/area-store';
+import { AreaSelector } from '@/components/customer/area-selector';
 import type { BrandingConfig } from '@/lib/branding';
 
 type FormErrors = {
@@ -30,6 +33,7 @@ export default function CheckoutPage() {
   const router = useRouter();
   const { items, getSubtotal, clearCart } = useCartStore();
   const { addToast } = useUIStore();
+  const { selectedArea } = useAreaStore();
   const [branding, setBranding] = useState<BrandingConfig | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -90,6 +94,7 @@ export default function CheckoutPage() {
           customerEmail: email.trim() || undefined,
           deliveryAddress: orderType === 'delivery' ? address.trim() : 'Collection',
           deliveryNotes: orderNotes.trim() || undefined,
+          deliveryAreaId: orderType === 'delivery' ? (selectedArea?.id || undefined) : undefined,
           orderType,
           paymentMethod,
           subtotal,
@@ -245,6 +250,26 @@ export default function CheckoutPage() {
                       className="rounded-xl"
                     />
                   </div>
+                  {/* Delivery area */}
+                  {orderType === 'delivery' && (
+                    <div className="space-y-2">
+                      <Label>
+                        <span className="inline-flex items-center gap-1.5">
+                          <MapPin className="size-3.5" />
+                          Delivery Area
+                        </span>
+                      </Label>
+                      <div className="flex items-center gap-3">
+                        {selectedArea ? (
+                          <div className="flex-1 flex items-center gap-2 p-3 rounded-xl border border-primary/30 bg-primary/5">
+                            <MapPin className="size-4 text-primary" />
+                            <span className="text-sm font-medium">{selectedArea.name}</span>
+                          </div>
+                        ) : null}
+                        <AreaSelector />
+                      </div>
+                    </div>
+                  )}
                   {orderType === 'delivery' && (
                     <div className="space-y-2">
                       <Label htmlFor="address">
@@ -379,6 +404,17 @@ export default function CheckoutPage() {
                       <span className="tabular-nums">{currency}{total.toFixed(2)}</span>
                     </div>
                   </div>
+
+                  {/* Compact checkout upsell */}
+                  <UpsellSection
+                    placement="checkout_page"
+                    cartItemIds={items.map((i) => i.itemId)}
+                    cartTotal={subtotal}
+                    areaId={selectedArea?.id || undefined}
+                    title="Last chance to add"
+                    limit={4}
+                    variant="compact"
+                  />
 
                   <Button
                     className="w-full h-12 rounded-xl text-base font-bold"

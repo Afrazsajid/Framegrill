@@ -8,14 +8,14 @@ export async function GET(request: Request) {
     if (id) {
       const order = await db.order.findUnique({
         where: { id },
-        include: { items: true, rider: true, review: true },
+        include: { items: true, rider: true, review: true, deliveryArea: true },
       });
       if (!order) return NextResponse.json({ error: 'Not found' }, { status: 404 });
       return NextResponse.json(order);
     }
     const orders = await db.order.findMany({
       orderBy: { createdAt: 'desc' },
-      include: { items: true, rider: true, review: true },
+      include: { items: true, rider: true, review: true, deliveryArea: true },
     });
     return NextResponse.json(orders);
   } catch {
@@ -35,7 +35,7 @@ export async function POST(request: Request) {
         orderNumber,
         items: { create: items },
       },
-      include: { items: true, rider: true },
+      include: { items: true, rider: true, deliveryArea: true },
     });
     return NextResponse.json(order, { status: 201 });
   } catch (e: unknown) {

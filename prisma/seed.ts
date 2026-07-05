@@ -3,7 +3,9 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-  // Clear existing data
+  // Clear existing data (order matters for FK constraints)
+  await prisma.upsellRuleProduct.deleteMany();
+  await prisma.upsellRule.deleteMany();
   await prisma.review.deleteMany();
   await prisma.orderItem.deleteMany();
   await prisma.order.deleteMany();
@@ -12,6 +14,7 @@ async function main() {
   await prisma.menuItem.deleteMany();
   await prisma.category.deleteMany();
   await prisma.rider.deleteMany();
+  await prisma.deliveryArea.deleteMany();
   await prisma.restaurant.deleteMany();
 
   // Create restaurant branding
@@ -43,6 +46,16 @@ async function main() {
       termsLink: "/terms",
       privacyLink: "/privacy",
     },
+  });
+
+  // Create delivery areas with real Karachi coordinates
+  await prisma.deliveryArea.createMany({
+    data: [
+      { name: 'Saddar', slug: 'saddar', isActive: true, sortOrder: 1, latitude: 24.8607, longitude: 67.0011, radiusKm: 3.0 },
+      { name: 'Burns Road', slug: 'burns-road', isActive: true, sortOrder: 2, latitude: 24.8601, longitude: 67.0103, radiusKm: 2.5 },
+      { name: 'Gulshan-e-Iqbal', slug: 'gulshan-e-iqbal', isActive: true, sortOrder: 3, latitude: 24.9138, longitude: 67.0936, radiusKm: 4.0 },
+      { name: 'Gulshan-e-Johar', slug: 'gulshan-e-johar', isActive: true, sortOrder: 4, latitude: 24.9280, longitude: 67.0955, radiusKm: 3.5 },
+    ],
   });
 
   // Create categories
@@ -717,8 +730,122 @@ async function main() {
     },
   });
 
+  // ---- Upsell Rules ----
+
+  // Rule 1: Product-level — when viewing Classic Burger, suggest fries + drink
+  const upsellClassic = await prisma.upsellRule.create({
+    data: {
+      name: "Burger Combo Suggestion",
+      type: "product",
+      triggerProductId: classicBurger.id,
+      placement: "product_page",
+      priority: 10,
+      isActive: true,
+      products: {
+        create: [
+          { productId: loadedFries.id, sortOrder: 1 },
+          { productId: milkshake.id, sortOrder: 2 },
+          { productId: onionRings.id, sortOrder: 3 },
+        ],
+      },
+    },
+  });
+
+  // Rule 2: Product-level — when viewing Smoky BBQ, suggest drink
+  const upsellBBQ = await prisma.upsellRule.create({
+    data: {
+      name: "BBQ Add-ons",
+      type: "product",
+      triggerProductId: smokyBBQ.id,
+      placement: "product_page",
+      priority: 10,
+      isActive: true,
+      products: {
+        create: [
+          { productId: coleslaw.id, sortOrder: 1 },
+          { productId: freshLemonade.id, sortOrder: 2 },
+        ],
+      },
+    },
+  });
+
+  // Rule 3: Category-level — any burger, suggest sides & drinks
+  const upsellBurgerCat = await prisma.upsellRule.create({
+    data: {
+      name: "Burger Category Upsell",
+      type: "category",
+      triggerCategoryId: burgers.id,
+      placement: "product_page",
+      priority: 5,
+      isActive: true,
+      products: {
+        create: [
+          { productId: loadedFries.id, sortOrder: 1 },
+          { productId: onionRings.id, sortOrder: 2 },
+          { productId: milkshake.id, sortOrder: 3 },
+          { productId: freshLemonade.id, sortOrder: 4 },
+        ],
+      },
+    },
+  });
+
+  // Rule 4: Cart-level — if cart has items, suggest drinks at checkout
+  const upsellCartDrink = await prisma.upsellRule.create({
+    data: {
+      name: "Cart Drink Suggestion",
+      type: "cart",
+      placement: "cart_page",
+      priority: 10,
+      isActive: true,
+      products: {
+        create: [
+          { productId: milkshake.id, sortOrder: 1 },
+          { productId: freshLemonade.id, sortOrder: 2 },
+          { productId: icedCoffee.id, sortOrder: 3 },
+        ],
+      },
+    },
+  });
+
+  // Rule 5: Checkout-level — cheap add-ons before order
+  const upsellCheckout = await prisma.upsellRule.create({
+    data: {
+      name: "Last Chance Sides",
+      type: "global",
+      placement: "checkout_page",
+      minCartValue: 10,
+      priority: 10,
+      isActive: true,
+      products: {
+        create: [
+          { productId: coleslaw.id, sortOrder: 1 },
+          { productId: macCheese.id, sortOrder: 2 },
+          { productId: churros.id, sortOrder: 3 },
+        ],
+      },
+    },
+  });
+
+  // Rule 6: Global — popular add-ons shown on cart page as fallback
+  const upsellGlobal = await prisma.upsellRule.create({
+    data: {
+      name: "Popular Add-ons",
+      type: "global",
+      placement: "cart_page",
+      priority: 1,
+      isActive: true,
+      products: {
+        create: [
+          { productId: loadedFries.id, sortOrder: 1 },
+          { productId: onionRings.id, sortOrder: 2 },
+          { productId: brownie.id, sortOrder: 3 },
+        ],
+      },
+    },
+  });
+
   console.log("Database seeded successfully!");
-  console.log(`Created: 1 restaurant, 6 categories, ${6 + 3 + 4 + 2 + 3 + 2} menu items, 4 riders, 6 orders, 1 review`);
+  console.log(`Created: 1 restaurant, 6 categories, ${6 + 3 + 4 + 2 + 3 + 2} menu items, 4 riders, 6 orders, 1 review, 6 upsell rules`);
 }
 
 main()

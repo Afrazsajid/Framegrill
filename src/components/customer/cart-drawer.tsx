@@ -9,10 +9,13 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useCartStore, type CartItem } from '@/store/cart-store';
+import { useAreaStore } from '@/store/area-store';
+import { UpsellSection } from '@/components/customer/upsell-section';
 import type { BrandingConfig } from '@/lib/branding';
 
 export function CartDrawer() {
   const { items, isOpen, closeCart, removeItem, updateQuantity, getSubtotal } = useCartStore();
+  const { selectedArea } = useAreaStore();
   const [branding, setBranding] = useState<BrandingConfig | null>(null);
   const currency = branding?.currency || '$';
   const deliveryFee = branding?.deliveryFee || 2.99;
@@ -70,6 +73,18 @@ export function CartDrawer() {
                   />
                 ))}
               </AnimatePresence>
+
+              {/* Cart upsell */}
+              {items.length > 0 && (
+                <UpsellSection
+                  placement="cart_page"
+                  cartItemIds={items.map((i) => i.itemId)}
+                  cartTotal={subtotal}
+                  areaId={selectedArea?.id || undefined}
+                  title="Complete your order"
+                  limit={3}
+                />
+              )}
             </ScrollArea>
 
             <div className="border-t bg-background px-5 py-4 space-y-3 shrink-0">

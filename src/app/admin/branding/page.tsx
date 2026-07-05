@@ -119,7 +119,7 @@ export default function AdminBrandingPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-96">
-        <Loader2 className="w-8 h-8 text-[#DC2626] animate-spin" />
+        <Loader2 className="w-8 h-8 text-brand animate-spin" />
       </div>
     );
   }
@@ -131,7 +131,7 @@ export default function AdminBrandingPage() {
           <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Branding</h1>
           <p className="text-slate-500 text-sm mt-1">Customize your restaurant appearance and settings</p>
         </div>
-        <Button onClick={save} disabled={saving} className="bg-[#DC2626] hover:bg-[#B91C1C] text-white">
+        <Button onClick={save} disabled={saving} className="bg-brand hover:bg-brand-hover text-white">
           {saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
           Save Changes
         </Button>
@@ -143,7 +143,7 @@ export default function AdminBrandingPage() {
           <Card className="border-slate-200/80">
             <CardHeader>
               <div className="flex items-center gap-2">
-                <Store className="w-5 h-5 text-[#DC2626]" />
+                <Store className="w-5 h-5 text-brand" />
                 <CardTitle className="text-base">General Information</CardTitle>
               </div>
               <CardDescription>Basic restaurant details shown to customers</CardDescription>
@@ -180,7 +180,7 @@ export default function AdminBrandingPage() {
           <Card className="border-slate-200/80">
             <CardHeader>
               <div className="flex items-center gap-2">
-                <Phone className="w-5 h-5 text-[#DC2626]" />
+                <Phone className="w-5 h-5 text-brand" />
                 <CardTitle className="text-base">Contact Information</CardTitle>
               </div>
               <CardDescription>How customers can reach you</CardDescription>
@@ -205,7 +205,7 @@ export default function AdminBrandingPage() {
           <Card className="border-slate-200/80">
             <CardHeader>
               <div className="flex items-center gap-2">
-                <Palette className="w-5 h-5 text-[#DC2626]" />
+                <Palette className="w-5 h-5 text-brand" />
                 <CardTitle className="text-base">Color Scheme</CardTitle>
               </div>
               <CardDescription>Customize brand colors</CardDescription>
@@ -281,7 +281,7 @@ export default function AdminBrandingPage() {
           <Card className="border-slate-200/80">
             <CardHeader>
               <div className="flex items-center gap-2">
-                <DollarSign className="w-5 h-5 text-[#DC2626]" />
+                <DollarSign className="w-5 h-5 text-brand" />
                 <CardTitle className="text-base">Delivery & Pricing</CardTitle>
               </div>
               <CardDescription>Configure delivery options and currency</CardDescription>
@@ -330,7 +330,7 @@ export default function AdminBrandingPage() {
           <Card className="border-slate-200/80">
             <CardHeader>
               <div className="flex items-center gap-2">
-                <Globe className="w-5 h-5 text-[#DC2626]" />
+                <Globe className="w-5 h-5 text-brand" />
                 <CardTitle className="text-base">Social Media & Links</CardTitle>
               </div>
               <CardDescription>Social profiles and legal links</CardDescription>
@@ -367,7 +367,7 @@ export default function AdminBrandingPage() {
           <Card className="border-slate-200/80">
             <CardHeader>
               <div className="flex items-center gap-2">
-                <Link2 className="w-5 h-5 text-[#DC2626]" />
+                <Link2 className="w-5 h-5 text-brand" />
                 <CardTitle className="text-base">Hero Images</CardTitle>
               </div>
               <CardDescription>JSON array of image URLs for the hero carousel</CardDescription>
@@ -409,7 +409,7 @@ export default function AdminBrandingPage() {
 
         {/* Save button at bottom */}
         <div className="flex justify-end">
-          <Button onClick={save} disabled={saving} size="lg" className="bg-[#DC2626] hover:bg-[#B91C1C] text-white min-w-[160px]">
+          <Button onClick={save} disabled={saving} size="lg" className="bg-brand hover:bg-brand-hover text-white min-w-[160px]">
             {saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
             Save All Changes
           </Button>

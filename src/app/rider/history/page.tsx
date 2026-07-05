@@ -290,7 +290,7 @@ export default function RiderHistoryPage() {
                                 </div>
                                 <div className="flex justify-between text-sm font-bold text-foreground pt-1">
                                   <span>Total</span>
-                                  <span className="text-[#DC2626]">${order.total.toFixed(2)}</span>
+                                  <span className="text-brand">${order.total.toFixed(2)}</span>
                                 </div>
                               </div>
                             </div>

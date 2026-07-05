@@ -24,7 +24,10 @@ export async function PUT(request: Request) {
       where: { id: restaurant.id },
       data: body,
     });
-    return NextResponse.json(updated);
+    // Clear the branding cache cookie so the inline script re-fetches
+    const res = NextResponse.json(updated);
+    res.headers.append('Set-Cookie', 'fg-branding=;path=/;max-age=0');
+    return res;
   } catch {
     return NextResponse.json({ error: 'Failed to update branding' }, { status: 500 });
   }

@@ -267,7 +267,7 @@ export default function AdminMenuPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-96">
-        <Loader2 className="w-8 h-8 text-[#DC2626] animate-spin" />
+        <Loader2 className="w-8 h-8 text-brand animate-spin" />
       </div>
     );
   }
@@ -294,7 +294,7 @@ export default function AdminMenuPage() {
         {/* ═══ CATEGORIES TAB ═══ */}
         <TabsContent value="categories" className="mt-6">
           <div className="flex justify-end mb-4">
-            <Button onClick={() => openCatDialog()} className="bg-[#DC2626] hover:bg-[#B91C1C] text-white">
+            <Button onClick={() => openCatDialog()} className="bg-brand hover:bg-brand-hover text-white">
               <Plus className="w-4 h-4 mr-2" /> Add Category
             </Button>
           </div>
@@ -362,7 +362,7 @@ export default function AdminMenuPage() {
                 className="pl-9"
               />
             </div>
-            <Button onClick={() => openItemDialog()} className="bg-[#DC2626] hover:bg-[#B91C1C] text-white">
+            <Button onClick={() => openItemDialog()} className="bg-brand hover:bg-brand-hover text-white">
               <Plus className="w-4 h-4 mr-2" /> Add Item
             </Button>
           </div>
@@ -469,7 +469,7 @@ export default function AdminMenuPage() {
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setCatDialogOpen(false)}>Cancel</Button>
-            <Button onClick={saveCat} className="bg-[#DC2626] hover:bg-[#B91C1C] text-white">
+            <Button onClick={saveCat} className="bg-brand hover:bg-brand-hover text-white">
               {editingCat ? 'Update' : 'Create'}
             </Button>
           </DialogFooter>
@@ -686,7 +686,7 @@ export default function AdminMenuPage() {
 
           <DialogFooter>
             <Button variant="outline" onClick={() => setItemDialogOpen(false)}>Cancel</Button>
-            <Button onClick={saveItem} className="bg-[#DC2626] hover:bg-[#B91C1C] text-white">
+            <Button onClick={saveItem} className="bg-brand hover:bg-brand-hover text-white">
               {editingItem ? 'Update' : 'Create'}
             </Button>
           </DialogFooter>

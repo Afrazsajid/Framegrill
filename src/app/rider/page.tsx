@@ -223,7 +223,7 @@ export default function RiderDashboard() {
           onClick={() => setActiveTab('active')}
           className={`flex-1 h-11 rounded-xl text-sm font-semibold transition-all active:scale-[0.98] ${
             activeTab === 'active'
-              ? 'bg-[#DC2626] text-white shadow-md'
+              ? 'bg-brand text-white shadow-md'
               : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
           }`}
         >
@@ -241,7 +241,7 @@ export default function RiderDashboard() {
           onClick={() => setActiveTab('available')}
           className={`flex-1 h-11 rounded-xl text-sm font-semibold transition-all active:scale-[0.98] ${
             activeTab === 'available'
-              ? 'bg-[#DC2626] text-white shadow-md'
+              ? 'bg-brand text-white shadow-md'
               : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
           }`}
         >
@@ -410,7 +410,7 @@ export default function RiderDashboard() {
                             <Button
                               onClick={() => handleAcceptOrder(order)}
                               disabled={updating === order.id}
-                              className="flex-1 h-11 rounded-xl text-sm font-semibold text-white bg-[#DC2626] hover:bg-[#B91C1C] shadow-sm active:scale-[0.98] transition-transform"
+                              className="flex-1 h-11 rounded-xl text-sm font-semibold text-white bg-brand hover:bg-brand-hover shadow-sm active:scale-[0.98] transition-transform"
                             >
                               {updating === order.id ? (
                                 <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />

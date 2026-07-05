@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { CheckCircle2, ArrowRight, Clock, ShoppingBag } from 'lucide-react';
+import { CheckCircle2, ArrowRight, Clock, ShoppingBag, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
@@ -23,6 +23,7 @@ type OrderData = {
   deliveryFee: number;
   total: number;
   orderType: string;
+  deliveryArea: { id: string; name: string; slug: string } | null;
   items: {
     id: string;
     itemName: string;
@@ -120,6 +121,12 @@ export default function OrderConfirmationPage() {
               <Card className="rounded-2xl text-left mb-8">
                 <CardContent className="p-5 space-y-4">
                   <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wider">Order Details</h3>
+                  {order.deliveryArea && (
+                    <div className="flex items-center gap-1.5 text-sm">
+                      <MapPin className="size-3.5 text-primary" />
+                      <span className="font-medium text-primary">{order.deliveryArea.name}</span>
+                    </div>
+                  )}
                   
                   <div className="space-y-3">
                     {order.items.map((item) => (

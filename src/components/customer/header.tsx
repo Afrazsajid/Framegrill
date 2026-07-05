@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart, Menu, X, Flame, Phone, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useCartStore } from '@/store/cart-store';
+import { AreaSelector } from '@/components/customer/area-selector';
 import type { BrandingConfig } from '@/lib/branding';
 
 export function Header() {
@@ -70,7 +71,10 @@ export function Header() {
 
           {/* Right side */}
           <div className="flex items-center gap-2">
-            {/* Phone (desktop) */}
+            {/* Area selector + Phone (desktop) */}
+            <div className="hidden sm:flex items-center gap-1 mr-2">
+              <AreaSelector />
+            </div>
             <a
               href={`tel:${branding?.phone?.replace(/\s/g, '') || ''}`}
               className="hidden lg:flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mr-2"

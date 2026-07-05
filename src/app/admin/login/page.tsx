@@ -51,12 +51,12 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-[#1E3A5F] to-slate-900 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-brand-secondary to-slate-900 p-4">
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 25% 25%, #DC2626 1px, transparent 1px),
-                           radial-gradient(circle at 75% 75%, #DC2626 1px, transparent 1px)`,
+          backgroundImage: `radial-gradient(circle at 25% 25%, var(--brand-color) 1px, transparent 1px),
+                           radial-gradient(circle at 75% 75%, var(--brand-color) 1px, transparent 1px)`,
           backgroundSize: '50px 50px'
         }} />
       </div>
@@ -73,7 +73,7 @@ export default function AdminLoginPage() {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.3, type: 'spring', stiffness: 200 }}
-              className="mx-auto mb-4 w-16 h-16 rounded-2xl bg-[#DC2626] flex items-center justify-center shadow-lg shadow-red-500/25"
+              className="mx-auto mb-4 w-16 h-16 rounded-2xl bg-brand flex items-center justify-center shadow-brand"
             >
               <Flame className="w-8 h-8 text-white" />
             </motion.div>
@@ -106,7 +106,7 @@ export default function AdminLoginPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="pl-10 bg-white/5 border-white/10 text-white placeholder:text-slate-500 focus:border-[#DC2626] focus:ring-[#DC2626]/20 h-11"
+                    className="pl-10 bg-white/5 border-white/10 text-white placeholder:text-slate-500 focus:border-brand focus:ring-brand h-11"
                   />
                 </div>
               </div>
@@ -124,7 +124,7 @@ export default function AdminLoginPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    className="pl-10 pr-10 bg-white/5 border-white/10 text-white placeholder:text-slate-500 focus:border-[#DC2626] focus:ring-[#DC2626]/20 h-11"
+                    className="pl-10 pr-10 bg-white/5 border-white/10 text-white placeholder:text-slate-500 focus:border-brand focus:ring-brand h-11"
                   />
                   <button
                     type="button"
@@ -139,7 +139,7 @@ export default function AdminLoginPage() {
               <Button
                 type="submit"
                 disabled={loading}
-                className="w-full h-11 bg-[#DC2626] hover:bg-[#B91C1C] text-white font-semibold shadow-lg shadow-red-500/25 transition-all duration-200"
+                className="w-full h-11 bg-brand hover:bg-brand-hover text-white font-semibold shadow-brand transition-all duration-200"
               >
                 {loading ? (
                   <div className="flex items-center gap-2">

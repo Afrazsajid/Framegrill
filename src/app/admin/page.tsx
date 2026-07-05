@@ -58,7 +58,7 @@ const statusLabels: Record<string, string> = {
   cancelled: 'Cancelled',
 };
 
-const PIE_COLORS = ['#F59E0B', '#3B82F6', '#10B981', '#EF4444'];
+const PIE_COLORS = ['var(--brand-accent)', '#3B82F6', '#10B981', '#EF4444'];
 
 const cardVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -113,7 +113,7 @@ export default function AdminDashboardPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-96">
-        <Loader2 className="w-8 h-8 text-[#DC2626] animate-spin" />
+        <Loader2 className="w-8 h-8 text-brand animate-spin" />
       </div>
     );
   }
@@ -207,7 +207,7 @@ export default function AdminDashboardPage() {
                             initial={{ width: 0 }}
                             animate={{ width: `${(item.totalSold / (analytics.topSellingItems[0]?.totalSold || 1)) * 100}%` }}
                             transition={{ delay: 0.6 + i * 0.1, duration: 0.6, ease: 'easeOut' }}
-                            className="h-full bg-[#DC2626] rounded-full"
+                            className="h-full bg-brand rounded-full"
                           />
                         </div>
                         <span className="text-xs text-slate-500 whitespace-nowrap">{item.totalSold} sold</span>
@@ -250,7 +250,7 @@ export default function AdminDashboardPage() {
                         fontSize: '13px',
                       }}
                     />
-                    <Bar dataKey="totalSold" fill="#DC2626" radius={[6, 6, 0, 0]} maxBarSize={40} />
+                    <Bar dataKey="totalSold" fill="var(--brand-color)" radius={[6, 6, 0, 0]} maxBarSize={40} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -391,9 +391,9 @@ export default function AdminDashboardPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.8, duration: 0.4 }}
       >
-        <Card className="bg-gradient-to-r from-[#1E3A5F] to-[#2d5a8e] border-0 text-white overflow-hidden relative">
+        <Card className="bg-gradient-to-r from-brand-secondary to-[#2d5a8e] border-0 text-white overflow-hidden relative">
           <div className="absolute inset-0 opacity-10" style={{
-            backgroundImage: 'radial-gradient(circle at 80% 50%, #DC2626 1px, transparent 1px)',
+            backgroundImage: 'radial-gradient(circle at 80% 50%, var(--brand-color) 1px, transparent 1px)',
             backgroundSize: '24px 24px'
           }} />
           <CardContent className="relative p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">

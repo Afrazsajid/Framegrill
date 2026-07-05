@@ -42,6 +42,7 @@ model Category {
   sortOrder   Int        @default(0)
   isActive    Boolean    @default(true)
   items       MenuItem[]
+  upsellRules UpsellRule[] @relation("TriggerCategory")
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
@@ -64,6 +65,8 @@ model MenuItem {
   variations   ItemVariation[]
   addons       ItemAddon[]
   reviews      Review[]
+  upsellRules  UpsellRule[]    @relation("TriggerProduct")
+  upsellIn     UpsellRuleProduct[]
   createdAt    DateTime        @default(now())
   updatedAt    DateTime        @updatedAt
 }
@@ -85,26 +88,43 @@ model ItemAddon {
   item      MenuItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
 }
 
+model DeliveryArea {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  isActive  Boolean  @default(true)
+  sortOrder Int      @default(0)
+  latitude  Float?
+  longitude Float?
+  radiusKm  Float    @default(5)
+  orders       Order[]
+  upsellRules  UpsellRule[]  @relation("UpsellArea")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
 model Order {
-  id              String      @id @default(cuid())
-  orderNumber     String      @unique
+  id              String        @id @default(cuid())
+  orderNumber     String        @unique
   customerName    String
   customerPhone   String
   customerEmail   String?
   deliveryAddress String
   deliveryNotes   String?
-  orderType       String      @default("delivery")
-  paymentMethod   String      @default("cash")
-  status          String      @default("pending")
+  deliveryAreaId  String?
+  deliveryArea    DeliveryArea?  @relation(fields: [deliveryAreaId], references: [id])
+  orderType       String        @default("delivery")
+  paymentMethod   String        @default("cash")
+  status          String        @default("pending")
   subtotal        Float
-  deliveryFee     Float       @default(0)
+  deliveryFee     Float         @default(0)
   total           Float
   riderId         String?
-  rider           Rider?      @relation(fields: [riderId], references: [id])
+  rider           Rider?        @relation(fields: [riderId], references: [id])
   items           OrderItem[]
   review          Review?
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
 }
 
 model OrderItem {
@@ -145,4 +165,35 @@ model Review {
   comment      String?
   customerName String
   createdAt    DateTime @default(now())
+}
+
+model UpsellRule {
+  id              String            @id @default(cuid())
+  name            String
+  type            String            @default("global") // product | category | cart | global
+  triggerProductId String?
+  triggerProduct   MenuItem?         @relation("TriggerProduct", fields: [triggerProductId], references: [id], onDelete: SetNull)
+  triggerCategoryId String?
+  triggerCategory  Category?        @relation("TriggerCategory", fields: [triggerCategoryId], references: [id], onDelete: SetNull)
+  placement       String            @default("all") // product_page | cart_page | checkout_page | all
+  minCartValue    Float?
+  maxCartValue    Float?
+  areaId          String?
+  area            DeliveryArea?     @relation("UpsellArea", fields: [areaId], references: [id], onDelete: SetNull)
+  priority        Int               @default(0)
+  isActive        Boolean           @default(true)
+  products        UpsellRuleProduct[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+}
+
+model UpsellRuleProduct {
+  id           String     @id @default(cuid())
+  upsellRuleId String
+  rule         UpsellRule @relation(fields: [upsellRuleId], references: [id], onDelete: Cascade)
+  productId    String
+  product      MenuItem   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  sortOrder    Int        @default(0)
+  createdAt    DateTime   @default(now())
+  @@unique([upsellRuleId, productId])
 }

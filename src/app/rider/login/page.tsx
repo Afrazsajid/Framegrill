@@ -70,10 +70,10 @@ export default function RiderLoginPage() {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Hero Section */}
-      <div className="bg-[#1E3A5F] px-6 pt-16 pb-10 text-center relative overflow-hidden">
+      <div className="bg-brand-secondary px-6 pt-16 pb-10 text-center relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-4 left-4 w-32 h-32 rounded-full bg-[#DC2626] blur-3xl" />
-          <div className="absolute bottom-4 right-4 w-24 h-24 rounded-full bg-[#F59E0B] blur-3xl" />
+          <div className="absolute top-4 left-4 w-32 h-32 rounded-full bg-brand blur-3xl" />
+          <div className="absolute bottom-4 right-4 w-24 h-24 rounded-full bg-brand-accent blur-3xl" />
         </div>
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
@@ -81,11 +81,11 @@ export default function RiderLoginPage() {
           transition={{ duration: 0.5, type: 'spring', stiffness: 200 }}
           className="relative z-10"
         >
-          <div className="w-20 h-20 rounded-full bg-[#DC2626] mx-auto mb-4 flex items-center justify-center shadow-lg">
+          <div className="w-20 h-20 rounded-full bg-brand mx-auto mb-4 flex items-center justify-center shadow-lg">
             <Bike className="w-10 h-10 text-white" />
           </div>
           <div className="flex items-center justify-center gap-2 mb-1">
-            <Flame className="w-5 h-5 text-[#F59E0B]" />
+            <Flame className="w-5 h-5 text-brand-accent" />
             <h1 className="text-2xl font-bold text-white tracking-tight">FlameGrill</h1>
           </div>
           <p className="text-blue-200 text-sm font-medium">Rider Portal</p>
@@ -115,7 +115,7 @@ export default function RiderLoginPage() {
                   placeholder="+1 555-201-0001"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="pl-10 h-12 text-base rounded-xl border-input focus-visible:border-[#DC2626] focus-visible:ring-[#DC2626]/20"
+                  className="pl-10 h-12 text-base rounded-xl border-input focus-visible:border-brand focus-visible:ring-brand"
                   autoComplete="tel"
                 />
               </div>
@@ -133,7 +133,7 @@ export default function RiderLoginPage() {
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="pl-10 pr-12 h-12 text-base rounded-xl border-input focus-visible:border-[#DC2626] focus-visible:ring-[#DC2626]/20"
+                  className="pl-10 pr-12 h-12 text-base rounded-xl border-input focus-visible:border-brand focus-visible:ring-brand"
                   autoComplete="current-password"
                 />
                 <button
@@ -159,7 +159,7 @@ export default function RiderLoginPage() {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full h-12 rounded-xl bg-[#DC2626] hover:bg-[#B91C1C] text-white font-semibold text-base shadow-md active:scale-[0.98] transition-transform"
+              className="w-full h-12 rounded-xl bg-brand hover:bg-brand-hover text-white font-semibold text-base shadow-md active:scale-[0.98] transition-transform"
             >
               {loading ? (
                 <div className="flex items-center gap-2">

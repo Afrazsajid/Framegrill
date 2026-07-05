@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Fragment } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Loader2, RefreshCw, MapPin, User, Phone, CreditCard,
@@ -41,6 +41,12 @@ interface Rider {
   isAvailable: boolean;
 }
 
+interface DeliveryArea {
+  id: string;
+  name: string;
+  slug: string;
+}
+
 interface Order {
   id: string;
   orderNumber: string;
@@ -49,6 +55,8 @@ interface Order {
   customerEmail: string | null;
   deliveryAddress: string;
   deliveryNotes: string | null;
+  deliveryAreaId: string | null;
+  deliveryArea: DeliveryArea | null;
   paymentMethod: string;
   status: string;
   subtotal: number;
@@ -190,7 +198,7 @@ export default function AdminOrdersPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-96">
-        <Loader2 className="w-8 h-8 text-[#DC2626] animate-spin" />
+        <Loader2 className="w-8 h-8 text-brand animate-spin" />
       </div>
     );
   }
@@ -259,8 +267,8 @@ export default function AdminOrdersPage() {
                   filteredOrders.map((order) => {
                     const nextStatuses = STATUS_FLOW[order.status] || [];
                     return (
-                      <>
-                        <TableRow key={order.id} className="hover:bg-slate-50/80 transition-colors">
+                      <Fragment key={order.id}>
+                        <TableRow className="hover:bg-slate-50/80 transition-colors">
                           <TableCell className="pl-6">
                             <button onClick={() => setExpandedId(expandedId === order.id ? null : order.id)}>
                               {expandedId === order.id
@@ -333,7 +341,7 @@ export default function AdminOrdersPage() {
                         {/* Expanded row - quick items preview */}
                         <AnimatePresence>
                           {expandedId === order.id && (
-                            <TableRow key={`${order.id}-expanded`}>
+                            <TableRow>
                               <TableCell colSpan={9} className="bg-slate-50/50 p-0">
                                 <motion.div
                                   initial={{ height: 0, opacity: 0 }}
@@ -361,7 +369,7 @@ export default function AdminOrdersPage() {
                             </TableRow>
                           )}
                         </AnimatePresence>
-                      </>
+                      </Fragment>
                     );
                   })
                 )}
@@ -417,6 +425,12 @@ export default function AdminOrdersPage() {
                 <div>
                   <h4 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-2">Delivery</h4>
                   <div className="bg-slate-50 rounded-xl p-3 space-y-2">
+                    {selectedOrder.deliveryArea && (
+                      <div className="flex items-center gap-2 text-sm">
+                        <MapPin className="w-4 h-4 text-brand mt-0.5" />
+                        <span className="font-medium text-brand">{selectedOrder.deliveryArea.name}</span>
+                      </div>
+                    )}
                     <div className="flex items-start gap-2 text-sm">
                       <MapPin className="w-4 h-4 text-slate-400 mt-0.5" />
                       <span className="text-slate-600">{selectedOrder.deliveryAddress}</span>

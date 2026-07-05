@@ -49,9 +49,16 @@
 
 :root {
   --radius: 0.75rem;
+
+  /* Brand defaults — overridden by BrandingInit from DB */
   --brand-color: #DC2626;
   --brand-fg: #FFFFFF;
+  --brand-color-hover: #B91C1C;
+  --brand-color-light: rgba(220, 38, 38, 0.1);
+  --brand-color-lighter: rgba(220, 38, 38, 0.05);
+  --brand-color-shadow: rgba(220, 38, 38, 0.25);
   --brand-secondary: #1E3A5F;
+  --brand-secondary-light: rgba(30, 58, 95, 0.1);
   --brand-accent: #F59E0B;
 
   --background: oklch(0.995 0.002 90);
@@ -60,27 +67,30 @@
   --card-foreground: oklch(0.145 0.015 30);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0.015 30);
-  --primary: oklch(0.577 0.245 27.325);
-  --primary-foreground: oklch(0.985 0 0);
+
+  /* Wire shadcn primary to brand color */
+  --primary: var(--brand-color);
+  --primary-foreground: var(--brand-fg);
+  --ring: var(--brand-color);
+  --destructive: var(--brand-color);
+  --sidebar-primary: var(--brand-color);
+  --sidebar-primary-foreground: var(--brand-fg);
+  --chart-1: var(--brand-color);
+
   --secondary: oklch(0.965 0.01 90);
   --secondary-foreground: oklch(0.205 0.015 30);
   --muted: oklch(0.965 0.005 90);
   --muted-foreground: oklch(0.5 0.01 30);
   --accent: oklch(0.965 0.01 90);
   --accent-foreground: oklch(0.205 0.015 30);
-  --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.915 0.005 90);
   --input: oklch(0.915 0.005 90);
-  --ring: oklch(0.577 0.245 27.325);
-  --chart-1: oklch(0.577 0.245 27.325);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.577 0.245 27.325);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
@@ -100,6 +110,43 @@
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  /* Dynamic brand colour utilities */
+  .bg-brand {
+    background-color: var(--brand-color);
+  }
+  .bg-brand-hover {
+    background-color: var(--brand-color-hover);
+  }
+  .bg-brand-light {
+    background-color: var(--brand-color-light);
+  }
+  .bg-brand-lighter {
+    background-color: var(--brand-color-lighter);
+  }
+  .bg-brand-secondary {
+    background-color: var(--brand-secondary);
+  }
+  .text-brand {
+    color: var(--brand-color);
+  }
+  .text-brand-secondary {
+    color: var(--brand-secondary);
+  }
+  .text-brand-accent {
+    color: var(--brand-accent);
+  }
+  .border-brand {
+    border-color: var(--brand-color);
+  }
+  .shadow-brand {
+    box-shadow: 0 10px 15px -3px var(--brand-color-shadow);
+  }
+  .ring-brand {
+    --tw-ring-color: var(--brand-color);
+  }
+  .hover\:bg-brand-hover:hover {
+    background-color: var(--brand-color-hover);
   }
 }
 

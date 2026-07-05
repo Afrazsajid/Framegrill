@@ -54,6 +54,7 @@ type OrderData = {
     notes: string | null;
   }[];
   rider: { id: string; name: string; phone: string } | null;
+  deliveryArea: { id: string; name: string; slug: string } | null;
   review: { id: string; rating: number; comment: string | null } | null;
   createdAt: string;
   updatedAt: string;
@@ -412,7 +413,14 @@ export default function OrderTrackingPage() {
                     </div>
                     <div className="flex items-start gap-2.5 text-muted-foreground">
                       <MapPin className="size-4 mt-0.5 shrink-0" />
-                      <span>{order?.deliveryAddress}</span>
+                      <div>
+                        {order?.deliveryArea && (
+                          <span className="inline-flex items-center gap-1 text-xs font-semibold text-primary mb-0.5">
+                            {order.deliveryArea.name}
+                          </span>
+                        )}
+                        <span>{order?.deliveryAddress}</span>
+                      </div>
                     </div>
                     <div className="flex items-center gap-2.5 text-muted-foreground">
                       <span className="text-xs font-semibold uppercase tracking-wider">Payment:</span>

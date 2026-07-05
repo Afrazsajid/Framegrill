@@ -5,7 +5,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   LayoutDashboard, UtensilsCrossed, ClipboardList, Bike,
-  Palette, Star, LogOut, Menu as MenuIcon, X, Flame
+  Palette, Star, LogOut, Menu as MenuIcon, X, Flame, MapPin, TrendingUp
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -16,6 +16,8 @@ const navItems = [
   { label: 'Menu', href: '/admin/menu', icon: UtensilsCrossed },
   { label: 'Orders', href: '/admin/orders', icon: ClipboardList },
   { label: 'Riders', href: '/admin/riders', icon: Bike },
+  { label: 'Areas', href: '/admin/areas', icon: MapPin },
+  { label: 'Upselling', href: '/admin/upselling', icon: TrendingUp },
   { label: 'Branding', href: '/admin/branding', icon: Palette },
   { label: 'Reviews', href: '/admin/reviews', icon: Star },
 ];
@@ -46,7 +48,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   if (!mounted || !isAuthenticated || user?.role !== 'admin') {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <div className="w-8 h-8 border-3 border-[#DC2626]/30 border-t-[#DC2626] rounded-full animate-spin" />
+        <div className="w-8 h-8 border-3 border-brand/30 border-t-brand rounded-full animate-spin" />
       </div>
     );
   }
@@ -74,7 +76,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <div className="dark-sidebar flex flex-col h-full">
       {/* Logo */}
       <div className="px-5 py-6 flex items-center gap-3 border-b border-white/10">
-        <div className="w-10 h-10 rounded-xl bg-[#DC2626] flex items-center justify-center shadow-lg shadow-red-500/20">
+        <div className="w-10 h-10 rounded-xl bg-brand flex items-center justify-center shadow-brand">
           <Flame className="w-5 h-5 text-white" />
         </div>
         <div>
@@ -105,12 +107,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   : 'text-slate-400 hover:text-white hover:bg-white/5'
               }`}
             >
-              <Icon className={`w-[18px] h-[18px] ${active ? 'text-[#DC2626]' : ''}`} />
+              <Icon className={`w-[18px] h-[18px] ${active ? 'text-brand' : ''}`} />
               <span>{item.label}</span>
               {active && (
                 <motion.div
                   layoutId="active-nav"
-                  className="ml-auto w-1.5 h-1.5 rounded-full bg-[#DC2626]"
+                  className="ml-auto w-1.5 h-1.5 rounded-full bg-brand"
                   transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                 />
               )}
@@ -122,8 +124,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* User section */}
       <div className="px-3 py-4 border-t border-white/10">
         <div className="flex items-center gap-3 px-3 py-2">
-          <Avatar className="h-9 w-9 bg-[#1E3A5F] border border-white/10">
-            <AvatarFallback className="text-white text-xs font-semibold bg-[#DC2626]/20 text-[#fca5a5]">
+          <Avatar className="h-9 w-9 bg-brand-secondary border border-white/10">
+            <AvatarFallback className="text-white text-xs font-semibold bg-brand/20 text-[#fca5a5]">
               {initials}
             </AvatarFallback>
           </Avatar>
@@ -192,8 +194,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             Admin
           </div>
 
-          <Avatar className="h-8 w-8 bg-[#1E3A5F]">
-            <AvatarFallback className="text-xs font-semibold bg-[#DC2626]/10 text-[#DC2626]">
+          <Avatar className="h-8 w-8 bg-brand-secondary">
+            <AvatarFallback className="text-xs font-semibold bg-brand/10 text-brand">
               {initials}
             </AvatarFallback>
           </Avatar>
